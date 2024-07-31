@@ -1,13 +1,17 @@
 const express = require('express');
+const cors = require('cors');
 
 // Create express server
 const app = express();
-const cors = require('cors');
 
 app.use(cors())
 
-app.get('/', (req, res) => {
+app.get('/api', (req, res) => {
     res.send('hello from server!');
+})
+
+app.post('/api/search', (req, res) => {
+    res.json({'message': 'form submitted'})
 })
 
 
