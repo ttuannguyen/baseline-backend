@@ -8,8 +8,8 @@ app.use(cors());
 app.use(express.json()); 
 // app.use(axios);
 
-const EDAMAM_API_ID = '805a07f7';
-const EDAMAM_API_KEY = '48484be0535a5017a5e879330aa66712';
+const EDAMAM_API_ID = '';
+const EDAMAM_API_KEY = '';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
@@ -34,7 +34,7 @@ app.post('/api/search', async (req, res) => {
 
     const result = sortedRecipes.slice(0, 3).map(r => ({
       name: r.recipe.label,
-      calories: r.recipe.calories
+      calories: Math.floor(r.recipe.calories*100)/100
     }))
     res.json(result);
   } catch (error) {
