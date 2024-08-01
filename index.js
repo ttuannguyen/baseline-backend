@@ -18,7 +18,6 @@ app.get('/api', (req, res) => {
 app.post('/api/search', async (req, res) => {
   const { keyword } = req.body;
   console.log('Keyword:', keyword);
-
   try {
     const response = await axios.get('https://api.edamam.com/search', {
       params: {
@@ -27,8 +26,11 @@ app.post('/api/search', async (req, res) => {
         app_key: EDAMAM_API_KEY,
       },
     });
+    
+    const recipes = response.data.hits;
 
-    console.log(response.data.hits);
+    const sortedRecipes = recipes.sort((a, b) => a.recipe.calories - b.recipe.calories);
+    console.log(sortedRecipes);
     res.json('tbd');
   } catch (error) {
     console.log(error)
