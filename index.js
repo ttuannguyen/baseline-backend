@@ -31,7 +31,12 @@ app.post('/api/search', async (req, res) => {
 
     const sortedRecipes = recipes.sort((a, b) => a.recipe.calories - b.recipe.calories);
     console.log(sortedRecipes);
-    res.json('tbd');
+
+    const result = sortedRecipes.slice(0, 3).map(r => ({
+      name: r.recipe.label,
+      calories: r.recipe.calories
+    }))
+    res.json(result);
   } catch (error) {
     console.log(error)
   }
