@@ -16,13 +16,17 @@ app.get('/api', (req, res) => {
   res.send('Hello from server!');
 })
 
-// Endpoint to Get a list of users
+// Endpoint to read data from db.json
 app.get('/getJSON', function(req, res){
   fs.readFile(__dirname + "/" + "db.json", 'utf8', function(err, data){
       // console.log(data);
-      res.send(data); 
+      res.end(data); 
   });
 })
+
+// Read data from db.json without endpoint
+const dbData = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+console.log(dbData);
 
 app.post('/api/search', async (req, res) => {
   const { keywords } = req.body;
