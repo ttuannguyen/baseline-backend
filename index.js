@@ -9,11 +9,19 @@ app.use(cors());
 app.use(express.json()); 
 // app.use(axios);
 
-const EDAMAM_API_ID = '805a07f7';
-const EDAMAM_API_KEY = '48484be0535a5017a5e879330aa66712';
+const EDAMAM_API_ID = '';
+const EDAMAM_API_KEY = '';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
+})
+
+// Endpoint to Get a list of users
+app.get('/getJSON', function(req, res){
+  fs.readFile(__dirname + "/" + "db.json", 'utf8', function(err, data){
+      // console.log(data);
+      res.send(data); 
+  });
 })
 
 app.post('/api/search', async (req, res) => {
