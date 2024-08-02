@@ -9,8 +9,8 @@ app.use(cors());
 app.use(express.json()); 
 // app.use(axios);
 
-const EDAMAM_API_ID = '';
-const EDAMAM_API_KEY = '';
+const EDAMAM_API_ID = '805a07f7';
+const EDAMAM_API_KEY = '48484be0535a5017a5e879330aa66712';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
@@ -24,9 +24,6 @@ app.get('/getJSON', function(req, res){
   });
 })
 
-// Read data from db.json without endpoint
-const dbData = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
-console.log(dbData);
 
 app.post('/api/search', async (req, res) => {
   const { keywords } = req.body;
@@ -49,6 +46,19 @@ app.post('/api/search', async (req, res) => {
       name: r.recipe.label,
       calories: Math.floor(r.recipe.calories*100)/100
     }))
+
+    // Read data from db.json without endpoint
+    const dbJsonData = JSON.parse(fs.readFileSync('db.json', 'utf-8'));
+    console.log(dbJsonData);
+
+    dbJsonData.queries.push({
+      keywords,
+      result
+    })
+
+    console.log(dbJsonData);
+
+
     res.json(result);
   } catch (error) {
     console.log(error)
