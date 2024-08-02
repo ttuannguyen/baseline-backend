@@ -56,8 +56,15 @@ app.post('/api/search', async (req, res) => {
       result
     })
 
-    console.log(dbJsonData);
+    // Write the data into the JSON file
+    fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
+      // error checking
+      if(err) throw err;
 
+      console.log("New data added");
+    })
+
+    console.log(dbJsonData);
 
     res.json(result);
   } catch (error) {
