@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const fs = require('fs');
 
 // Create express server
 const app = express();
@@ -8,20 +9,20 @@ app.use(cors());
 app.use(express.json()); 
 // app.use(axios);
 
-const EDAMAM_API_ID = '';
-const EDAMAM_API_KEY = '';
+const EDAMAM_API_ID = '805a07f7';
+const EDAMAM_API_KEY = '48484be0535a5017a5e879330aa66712';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
 })
 
 app.post('/api/search', async (req, res) => {
-  const { keyword } = req.body;
-  console.log('Keyword:', keyword);
+  const { keywords } = req.body;
+  console.log('Keywords:', keywords);
   try {
     const response = await axios.get('https://api.edamam.com/search', {
       params: {
-        q: keyword,
+        q: keywords,
         app_id: EDAMAM_API_ID,
         app_key: EDAMAM_API_KEY,
       },
