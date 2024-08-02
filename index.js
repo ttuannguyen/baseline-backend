@@ -44,7 +44,8 @@ app.post('/api/search', async (req, res) => {
 
     const result = sortedRecipes.slice(0, 3).map(r => ({
       name: r.recipe.label,
-      calories: Math.floor(r.recipe.calories*100)/100
+      calories: Math.floor(r.recipe.calories*100)/100,
+      image: r.recipe.image
     }))
 
     // Read data from db.json without endpoint
@@ -55,18 +56,16 @@ app.post('/api/search', async (req, res) => {
       keywords,
       result
     })
+    // console.log(dbJsonData);
 
     // Write the data into the JSON file
     fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
       // error checking
       if(err) throw err;
-
       console.log("New data added");
     })
-
-    console.log(dbJsonData);
-
     res.json(result);
+
   } catch (error) {
     console.log(error)
   }
