@@ -9,8 +9,8 @@ app.use(cors());
 app.use(express.json()); 
 // app.use(axios);
 
-const EDAMAM_API_ID = '';
-const EDAMAM_API_KEY = '';
+const EDAMAM_API_ID = 'app-id';
+const EDAMAM_API_KEY = 'app-key';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
@@ -59,11 +59,11 @@ app.post('/api/search', async (req, res) => {
     // console.log(dbJsonData);
 
     // Write the data into the JSON file
-    fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
-      // error checking
-      if(err) throw err;
-      console.log("New data added");
-    })
+    // fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
+    //   // error checking
+    //   if(err) throw err;
+    //   console.log("New data added");
+    // })
     res.json(result);
 
   } catch (error) {
