@@ -8,30 +8,16 @@ const app = express();
 app.use(cors());
 app.use(express.json()); 
 
-
 const EDAMAM_API_ID = '';
 const EDAMAM_API_KEY = '';
 
-app.get('/api', (req, res) => {
-  res.send('Hello from server!');
-})
-
-// Endpoint to read data from db.json
-app.get('/getJSON', function(req, res){
-  fs.readFile(__dirname + "/" + "db.json", 'utf8', function(err, data){
-      // console.log(data);
-      res.end(data); 
-  });
-})
-
-
 app.post('/api/search', async (req, res) => {
-  const { keywords } = req.body;
-  console.log('Keywords:', keywords);
+  const { ingredients } = req.body;
+  console.log('Ingredients:', ingredients);
   try {
     const response = await axios.get('https://api.edamam.com/search', {
       params: {
-        q: keywords,
+        q: ingredients,
         app_id: EDAMAM_API_ID,
         app_key: EDAMAM_API_KEY,
       },
@@ -63,10 +49,9 @@ app.post('/api/search', async (req, res) => {
     console.log(dbJsonData);
 
     dbJsonData.queries.push({
-      keywords,
+      ingredients,
       result
     })
-    // console.log(dbJsonData);
 
     // Write the data into the JSON file
     fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
@@ -74,7 +59,6 @@ app.post('/api/search', async (req, res) => {
       console.log("New data added");
     })
     res.json(result);
-
   } catch (error) {
     console.log(error)
   }

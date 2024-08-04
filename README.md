@@ -22,5 +22,5 @@ Description: Fetches recipes from the Edamam API based on the provided keyword, 
 
 ### Configuration
 Replace the placeholders in the server code (in index.js file) with your Edamam API credentials:
-const EDAMAM_API_ID = 'your-app-id';
-const EDAMAM_API_KEY = 'your-app-key';
+const EDAMAM_API_ID = 'app-id';
+const EDAMAM_API_KEY = 'app-key';
