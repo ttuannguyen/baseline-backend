@@ -3,13 +3,12 @@ const cors = require('cors');
 const axios = require('axios');
 const fs = require('fs');
 
-// Create express server
 const app = express();
 app.use(cors());
 app.use(express.json()); 
 
-const EDAMAM_API_ID = '';
-const EDAMAM_API_KEY = '';
+const EDAMAM_API_ID = 'app-id';
+const EDAMAM_API_KEY = 'app-key';
 
 app.post('/api/search', async (req, res) => {
   const { ingredients } = req.body;
