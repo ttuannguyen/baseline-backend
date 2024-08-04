@@ -7,10 +7,10 @@ const fs = require('fs');
 const app = express();
 app.use(cors());
 app.use(express.json()); 
-// app.use(axios);
 
-const EDAMAM_API_ID = 'app-id';
-const EDAMAM_API_KEY = 'app-key';
+
+const EDAMAM_API_ID = '';
+const EDAMAM_API_KEY = '';
 
 app.get('/api', (req, res) => {
   res.send('Hello from server!');
@@ -40,12 +40,22 @@ app.post('/api/search', async (req, res) => {
     const recipes = response.data.hits;
 
     const sortedRecipes = recipes.sort((a, b) => a.recipe.calories - b.recipe.calories);
-    console.log(sortedRecipes);
+    // console.log(sortedRecipes);
+
+    const nutrientValues = (totalNutrients) => {
+      let result = [];
+      for (let nutrient in totalNutrients) {
+        const quantity = Math.floor(totalNutrients[nutrient]['quantity']*100)/100;
+        result.push(totalNutrients[nutrient]['label'] + ": " +  quantity + " " + totalNutrients[nutrient]['unit']);
+      }
+      return result;
+    }
 
     const result = sortedRecipes.slice(0, 3).map(r => ({
       name: r.recipe.label,
       calories: Math.floor(r.recipe.calories*100)/100,
-      image: r.recipe.image
+      image: r.recipe.image,
+      nutrients: nutrientValues(r.recipe.totalNutrients),
     }))
 
     // Read data from db.json without endpoint
@@ -59,11 +69,10 @@ app.post('/api/search', async (req, res) => {
     // console.log(dbJsonData);
 
     // Write the data into the JSON file
-    // fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
-    //   // error checking
-    //   if(err) throw err;
-    //   console.log("New data added");
-    // })
+    fs.writeFile('db.json', JSON.stringify(dbJsonData), err => {
+      if(err) throw err;
+      console.log("New data added");
+    })
     res.json(result);
 
   } catch (error) {
